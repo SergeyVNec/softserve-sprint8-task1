@@ -1,5 +1,5 @@
 <!-- [START BADGES] -->
-[![Test CI](https://github.com/{{REPO_URL}}/actions/workflows/test-main.yml/badge.svg)](https://github.com/{{REPO_URL}}/actions/workflows/test-main.yml)
+[![Test CI](https://github.com/SergeyVNec/softserve-sprint8-task1/actions/workflows/test-main.yml/badge.svg)](https://github.com/SergeyVNec/softserve-sprint8-task1/actions/workflows/test-main.yml)
 <!-- [END BADGES] -->
 
 # Task on the Github Actions Topic 

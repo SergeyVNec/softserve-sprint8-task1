@@ -1,4 +1,4 @@
-name: CI Maven Project
+name: CI Node.js Project
 
 on:
   push:
@@ -8,21 +8,21 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        java-version: [8, 11, 17]
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Java
-        uses: actions/setup-java@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
         with:
-          distribution: 'temurin'
-          java-version: ${{ matrix.java-version }}
+          node-version: 18   # универсальный стабильный вариант
+          cache: 'npm'
 
-      - name: Build and test with Maven
-        env:
-          APP_PORT: 8080
-        run: mvn clean test
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run tests
+        run: npm test
+
+      - name: Build application
+        run: npm run build

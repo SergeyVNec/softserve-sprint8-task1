@@ -1,1 +1,41 @@
+name: CI Node.js Project
+
+# Controls when the workflow will run
+on:
+  push:
+    branches:
+      - main
+  pull request:
+    ranches:
+      - main
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      - name: Generate a token
+        id: generate-token
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ secrets.APP_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+      - uses: actions/checkout@v6
+      - name: Check CI test configuration
+        run: gh run view ${{ toJSON(github.event.workflow_run.id) }} --log | grep -q 'getDay returns the long-format day of the week'
+      - name: Check CI build configuration
+        run: gh run view ${{ toJSON(github.event.workflow_run.id) }} --log | grep -q 'Built at'
+      - name: Final Step
+        env:
+          GH_TOKEN: ${{ steps.generate-token.outputs.token }}
+        run: |
+          gh repo edit $GITHUB_REPOSITORY --visibility private --accept-visibility-change-consequences
+      
 
